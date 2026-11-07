@@ -663,7 +663,7 @@ bot.on('message', async (msg) => {
     });
     return bot.sendMessage(
       chatId,
-      `📚 اخترت الفرع: *${branch.name}*\n\nالآن ارسل لي رقمك الجامعي (أرقام فقط):`,
+      `📚 اخترت الفرع: *${branch.name}*\n\nالآن ارسل لي رقمك الجامعي ✏️ (أرقام فقط):`,
       { parse_mode: 'Markdown', reply_markup: buildCancelKeyboard() }
     );
   }
