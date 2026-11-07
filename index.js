@@ -348,6 +348,10 @@ const formatGradesMessage = (data) => {
 // جلب العلامات من الخادم
 // ============================================
 const fetchAndSendGrades = async (chatId) => {
+
+  const ckeckSubscription = await chatMember(chatId);
+  if (ckeckSubscription) return;
+
   const p = progressMap.get(chatId);
   const college = getCollegeByValue(p.college);
   const branchValue = hasBranches(college) ? p.branch ?? '_no_' : '_no_';
@@ -712,6 +716,42 @@ bot.on('message', async (msg) => {
     });
   }
 });
+
+
+
+export const chatMember = async (id) => {
+    try {
+        const result = await bot.getChatMember('@alamatyplus_channel', id);
+
+        switch (result.status) {
+            case 'left':
+                await bot.sendMessage(id, 'عذرا يجب عليك اولا الأشتراك بالقناة', {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [{ text: "اشترك من هنا", url: "https://t.me/alamatyplus_channel" }]
+                        ]
+                    }
+                });
+                return true;
+
+            case 'kicked':
+                await bot.sendMessage(id, 'انت محظور من الأستخدام, راجع المنشئ لمساعدتك', {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [{ text: "Bashar", url: "https://t.me/bashar1_x" }],
+                        ]
+                    }
+                });
+                return true;
+
+            default:
+                return false;
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
 // ============================================
 // معالجة الأخطاء العامة
