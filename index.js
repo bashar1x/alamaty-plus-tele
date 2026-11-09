@@ -402,7 +402,13 @@ const fetchAndSendGrades = async (chatId) => {
     await bot.deleteMessage(chatId, loadingMsg.message_id).catch(() => { });
     await bot.sendMessage(chatId, formatGradesMessage(data.students), {
       parse_mode: 'Markdown',
-      reply_markup: buildMainMenuKeyboard(),
+      reply_markup: {
+        ...buildMainMenuKeyboard(),
+          inline_keyboard: [
+            [{ text: " الحصول على ميزات إضافية⚡", url: "https://alamaty-plus.expo.app/download" }]
+          ]
+      },
+
     });
 
   } catch (err) {
@@ -542,7 +548,7 @@ bot.on('message', async (msg) => {
       `3️⃣ اختر الكلية\n` +
       `4️⃣ اختر الفرع (إن وُجد)\n` +
       `5️⃣ أدخل رقمك الجامعي`, +
-      `\n\n*ملاحظة:* يمكنك استخدام "إعادة التعيين" لإعادة إدخال بياناتك من البداية.`,
+    `\n\n*ملاحظة:* يمكنك استخدام "إعادة التعيين" لإعادة إدخال بياناتك من البداية.`,
       { reply_markup: buildMainMenuKeyboard() }
     );
   }
@@ -550,19 +556,28 @@ bot.on('message', async (msg) => {
   if (text === 'تحميل التطبيق للحصور على المزيد من الميزات') {
     return bot.sendMessage(
       chatId,
-      `استخدام التطبيق يوفر العديد من الميزات
-
+      `
+      🚀 *الحصول على ميزات إضافية* ⚡\n\n
+      استخدام التطبيق يوفر العديد من الميزات \n
       كشف علامات
       مشاركات كرت مميز
       جدول امتحانات 
       جدول الدوام
       احصائيات تفصيلة
       أضاف مواد مفقودة
+      علامات المواد نظري وعملي
       وغيرها من هذا التفاصيل 
 
       استخدام الرابط التالي لتحميل التطبيق
 
       https://alamaty-plus.expo.app/download`,
+      {
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "تحميل التطبيق", url: "https://alamaty-plus.expo.app/download" }]
+          ]
+        }
+      }
     );
   }
 
@@ -720,36 +735,36 @@ bot.on('message', async (msg) => {
 
 
 export const chatMember = async (id) => {
-    try {
-        const result = await bot.getChatMember('@alamatyplus_channel', id);
+  try {
+    const result = await bot.getChatMember('@alamatyplus_channel', id);
 
-        switch (result.status) {
-            case 'left':
-                await bot.sendMessage(id, 'عذرا يجب عليك اولا الأشتراك بالقناة', {
-                    reply_markup: {
-                        inline_keyboard: [
-                            [{ text: "اشترك من هنا", url: "https://t.me/alamatyplus_channel" }]
-                        ]
-                    }
-                });
-                return true;
+    switch (result.status) {
+      case 'left':
+        await bot.sendMessage(id, 'عذرا يجب عليك اولا الأشتراك بالقناة', {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "اشترك من هنا", url: "https://t.me/alamatyplus_channel" }]
+            ]
+          }
+        });
+        return true;
 
-            case 'kicked':
-                await bot.sendMessage(id, 'انت محظور من الأستخدام, راجع المنشئ لمساعدتك', {
-                    reply_markup: {
-                        inline_keyboard: [
-                            [{ text: "Bashar", url: "https://t.me/bashar1_x" }],
-                        ]
-                    }
-                });
-                return true;
+      case 'kicked':
+        await bot.sendMessage(id, 'انت محظور من الأستخدام, راجع المنشئ لمساعدتك', {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: "Bashar", url: "https://t.me/bashar1_x" }],
+            ]
+          }
+        });
+        return true;
 
-            default:
-                return false;
-        }
-    } catch (err) {
-        console.log(err);
+      default:
+        return false;
     }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 
