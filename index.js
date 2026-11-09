@@ -402,12 +402,8 @@ const fetchAndSendGrades = async (chatId) => {
     await bot.deleteMessage(chatId, loadingMsg.message_id).catch(() => { });
     await bot.sendMessage(chatId, formatGradesMessage(data.students), {
       parse_mode: 'Markdown',
-      reply_markup: {
-        ...buildMainMenuKeyboard(),
-          inline_keyboard: [
-            [{ text: " الحصول على ميزات إضافية⚡", url: "https://alamaty-plus.expo.app/download" }]
-          ]
-      },
+      reply_markup: buildMainMenuKeyboard()
+
 
     });
 
